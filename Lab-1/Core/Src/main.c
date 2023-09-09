@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -46,13 +47,51 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void turn_red_light_on()
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+}
+
+void turn_yellow_light_on()
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+}
+
+void turn_red_and_yellow_lights_off()
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+}
+
+void turn_green_light_on()
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+}
+
+void turn_green_light_off()
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+}
+
+uint32_t get_passed_time(uint32_t startLoopTime)
+{
+	return HAL_GetTime() - startLoopTime;
+}
+
+uint8_t get_BTN()
+{
+	return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15);
+}
+
 
 /* USER CODE END 0 */
 
@@ -86,12 +125,103 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
+  uint32_t currentTime = 0;
+
+  uint32_t greenDuration = 3000;
+  uint32_t yellowDuration = 1000;
+  uint32_t redDuration = 4 * greenDuration;
+  uint32_t greenBlinkingTimeOff = 200; // time while green is OFF
+  uint32_t greenBlinkingTimeOn = 400; // time while green is ON
+
+  _Bool nBTN = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // start time for RED light
+	  currentTime = HAL_GetTick();
+	  turn_green_lights_off();
+	  turn_red_light_on();
+	  while (1) // wait for end of red light
+	  {
+		  if (get_passed_time() > redDuration)
+		  {
+			  break;
+		  } else
+		  {
+			  if (!nBTN && get_BTN() == 0)
+			  {
+				  nBTN = 1;
+				  redDuration = redDuration / 4;
+			  }
+		  }
+	  }
+
+	  // start time for GREEN light
+	  currentTime = HAL_GetTick();
+	  turn_red_and_yellow_lights_off();
+	  turn_green_light_on();
+	  while (get_passed_time() < greenDuration)
+	  {
+	  }
+
+	  // return to initial conditions
+	  redDuration = 4 * greenDuration;
+	  nBTN = 0;
+
+	  // start time for GREEN light BLINKING
+	  currentTime = HAL_GetTick();
+	  turn_green_light_off(); // off
+	  while (get_passed_time() < greenBlinkingTimeOff)
+	  {
+		  if (!nBTN && get_BTN() == 0)
+		  {
+			  nBTN = 1;
+			  redDuration = redDuration / 4;
+		  }
+	  }
+	  for (int i = 0; i < 3; i++)
+	  {
+		  currentTime = HAL_GetTick();
+		  turn_green_light_on(); // on
+		  while (get_passed_time() < greenBlinkingTimeOn)
+		  {
+			  if (!nBTN && get_BTN() == 0)
+			  {
+				  nBTN = 1;
+				  redDuration = redDuration / 4;
+			  }
+		  }
+
+		  currentTime = HAL_GetTick();
+		  turn_green_light_off(); // off
+		  while (get_passed_time() < greenBlinkingTimeOff)
+		  {
+			  if (!nBTN && get_BTN() == 0)
+			  {
+				  nBTN = 1;
+				  redDuration = redDuration / 4;
+			  }
+		  }
+	  }
+
+	  // start time for yellow light
+	  currentTime = HAL_GetTick();
+	  turn_yellow_light_on();
+	  while (get_passed_time() < yellowDuration)
+	  {
+		  if (!nBTN && get_BTN() == 0)
+		  {
+			  nBTN = 1;
+			  redDuration = redDuration / 4;
+		  }
+	  }
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -149,31 +279,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : PD13 PD14 PD15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
