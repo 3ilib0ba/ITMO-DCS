@@ -147,7 +147,7 @@ int main(void)
 	  turn_red_light_on();
 	  while (1) // wait for end of red light
 	  {
-		  if (get_passed_time() > redDuration)
+		  if (get_passed_time(currentTime) > redDuration)
 		  {
 			  break;
 		  } else
@@ -164,7 +164,7 @@ int main(void)
 	  currentTime = HAL_GetTick();
 	  turn_red_and_yellow_lights_off();
 	  turn_green_light_on();
-	  while (get_passed_time() < greenDuration)
+	  while (get_passed_time(currentTime) < greenDuration)
 	  {
 	  }
 
@@ -175,7 +175,7 @@ int main(void)
 	  // start time for GREEN light BLINKING
 	  currentTime = HAL_GetTick();
 	  turn_green_light_off(); // off
-	  while (get_passed_time() < greenBlinkingTimeOff)
+	  while (get_passed_time(currentTime) < greenBlinkingTimeOff)
 	  {
 		  if (!nBTN && get_BTN() == 0)
 		  {
@@ -187,7 +187,7 @@ int main(void)
 	  {
 		  currentTime = HAL_GetTick();
 		  turn_green_light_on(); // on
-		  while (get_passed_time() < greenBlinkingTimeOn)
+		  while (get_passed_time(currentTime) < greenBlinkingTimeOn)
 		  {
 			  if (!nBTN && get_BTN() == 0)
 			  {
@@ -198,7 +198,7 @@ int main(void)
 
 		  currentTime = HAL_GetTick();
 		  turn_green_light_off(); // off
-		  while (get_passed_time() < greenBlinkingTimeOff)
+		  while (get_passed_time(currentTime) < greenBlinkingTimeOff)
 		  {
 			  if (!nBTN && get_BTN() == 0)
 			  {
@@ -211,7 +211,7 @@ int main(void)
 	  // start time for yellow light
 	  currentTime = HAL_GetTick();
 	  turn_yellow_light_on();
-	  while (get_passed_time() < yellowDuration)
+	  while (get_passed_time(currentTime) < yellowDuration)
 	  {
 		  if (!nBTN && get_BTN() == 0)
 		  {
