@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "traffic_light.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,6 +32,16 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+mode* cm = &((mode) {0, 0, 0, 0});
+duration_params* cdp = &((duration_params) {
+        .green_duration = 2 * SECOND,
+        .yellow_duration = 1 * SECOND,
+        .red_duration = 4 * 2 * SECOND,
+        .green_blinking_duration = 1500 * MILLISECOND,
+
+        .green_blinking_on_duration = 500 * MILLISECOND,
+        .green_blinking_off_duration = 250 * MILLISECOND,
+});
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,36 +64,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void turn_red_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-}
-
-void turn_yellow_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_red_and_yellow_lights_off() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_green_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-}
-
-void turn_green_light_off() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-}
-
-uint32_t get_passed_time(uint32_t startLoopTime) {
-    return HAL_GetTick() - startLoopTime;
-}
-
-uint8_t get_BTN() {
-    return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15);
-}
 
 
 /* USER CODE END 0 */
@@ -106,8 +86,8 @@ int main(void) {
 
     /* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* Configure the system clock */
+    SystemClock_Config();
 
     /* USER CODE BEGIN SysInit */
 
@@ -117,93 +97,18 @@ int main(void) {
     MX_GPIO_Init();
     /* USER CODE BEGIN 2 */
 
-    uint32_t currentTime = 0;
-
-    uint32_t greenDuration = 3000;
-    uint32_t yellowDuration = 1000;
-    uint32_t redDuration = 4 * greenDuration;
-    uint32_t greenBlinkingTimeOff = 200; // time while green is OFF
-    uint32_t greenBlinkingTimeOn = 400; // time while green is ON
-
-    _Bool nBTN = 0;
-
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        // start time for RED light
-        currentTime = HAL_GetTick();
-        turn_green_lights_off();
-        turn_red_light_on();
-        while (1) // wait for end of red light
-        {
-            if (get_passed_time(currentTime) > redDuration) {
-                break;
-            } else {
-                if (!nBTN && get_BTN() == 0) {
-                    nBTN = 1;
-                    redDuration = redDuration / 4;
-                }
-            }
-        }
-
-        // start time for GREEN light
-        currentTime = HAL_GetTick();
-        turn_red_and_yellow_lights_off();
-        turn_green_light_on();
-        while (get_passed_time(currentTime) < greenDuration) {
-        }
-
-        // return to initial conditions
-        redDuration = 4 * greenDuration;
-        nBTN = 0;
-
-        // start time for GREEN light BLINKING
-        currentTime = HAL_GetTick();
-        turn_green_light_off(); // off
-        while (get_passed_time(currentTime) < greenBlinkingTimeOff) {
-            if (!nBTN && get_BTN() == 0) {
-                nBTN = 1;
-                redDuration = redDuration / 4;
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            currentTime = HAL_GetTick();
-            turn_green_light_on(); // on
-            while (get_passed_time(currentTime) < greenBlinkingTimeOn) {
-                if (!nBTN && get_BTN() == 0) {
-                    nBTN = 1;
-                    redDuration = redDuration / 4;
-                }
-            }
-
-            currentTime = HAL_GetTick();
-            turn_green_light_off(); // off
-            while (get_passed_time(currentTime) < greenBlinkingTimeOff) {
-                if (!nBTN && get_BTN() == 0) {
-                    nBTN = 1;
-                    redDuration = redDuration / 4;
-                }
-            }
-        }
-
-        // start time for yellow light
-        currentTime = HAL_GetTick();
-        turn_yellow_light_on();
-        while (get_passed_time(currentTime) < yellowDuration) {
-            if (!nBTN && get_BTN() == 0) {
-                nBTN = 1;
-                redDuration = redDuration / 4;
-            }
-        }
-
-
-
-        /* USER CODE END WHILE */
-
-        /* USER CODE BEGIN 3 */
+        check_current_mode(cm, cdp);
+        check_button(cm, cdp);
     }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
     /* USER CODE END 3 */
 }
 
