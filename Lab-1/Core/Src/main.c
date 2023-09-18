@@ -54,36 +54,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void turn_red_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-}
-
-void turn_yellow_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_red_and_yellow_lights_off() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_green_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-}
-
-void turn_green_light_off() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-}
-
-uint32_t get_passed_time(uint32_t startLoopTime) {
-    return HAL_GetTick() - startLoopTime;
-}
-
-uint8_t get_BTN() {
-    return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15);
-}
 
 
 /* USER CODE END 0 */
