@@ -3,9 +3,6 @@
 //
 #include "traffic_light.h"
 
-const uint32_t MILLISECOND = 1;
-const uint32_t SECOND = 1000 * MILLISECOND;
-
 static duration_params default_duration_params = (duration_params) {
         .green_duration = 2 * SECOND;
         .yellow_duration = 1 * SECOND;
@@ -71,11 +68,11 @@ void check_current_mode(state *s, duration_params *dp) {
                 set_next_mode(s);
             else
                 switch (s->current_blinking_mode) {
-                    OFF:
-                        if (get_passed_time(s->last_update_blinking_mode) > dp->green_blinking_off_duration)
-                            set_next_blinking_mode(s);
                     ON:
                         if (get_passed_time(s->last_update_blinking_mode) > dp->green_blinking_on_duration)
+                            set_next_blinking_mode(s);
+                    OFF:
+                        if (get_passed_time(s->last_update_blinking_mode) > dp->green_blinking_off_duration)
                             set_next_blinking_mode(s);
                     default:
                         //  todo err
@@ -88,9 +85,21 @@ void check_current_mode(state *s, duration_params *dp) {
         default:
             //  todo err
     }
-
+    set_current_mode(s);
 }
 
+void check_button(state *s, duration_params *dp) {
+    if (get_current_button_state())
+        switch (s->current_mode) {
+            case BLINKING_GREE:
+            case YELLOW:
+            case RED:
+                dp->red_duration = green_duration;
+                break;
+            default:
+                //todo err
+        }
+}
 
 // private implementation
 static void set_next_mode(state *s) {
@@ -103,7 +112,7 @@ static void set_next_blinking_mode(state *s) {
     s->last_update_blinking_mode = now();
 }
 
-static void ser_current_mode(state *s) {
+static void set_current_mode(state *s) {
     switch (s->current_mode) {
         case RED:
             turn_green_light_off();
@@ -114,16 +123,16 @@ static void ser_current_mode(state *s) {
             turn_green_light_on();
             break;
         case GREEN_BLINKING:
-                switch (s->current_blinking_mode) {
-                    OFF:
-                        turn_red_and_yellow_lights_off();
-                        turn_green_light_off();
-                    ON:
-                        turn_red_and_yellow_lights_off();
-                        turn_green_light_on();
-                    default:
-                        //  todo err
-                }
+            switch (s->current_blinking_mode) {
+                OFF:
+                    turn_red_and_yellow_lights_off();
+                    turn_green_light_off();
+                ON:
+                    turn_red_and_yellow_lights_off();
+                    turn_green_light_on();
+                default:
+                    //  todo err
+            }
             break;
         case YELLOW:
             turn_green_light_off();

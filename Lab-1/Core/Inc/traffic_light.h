@@ -9,8 +9,8 @@
 
 #include "stm32f4xx_hal.h"
 
-extern const uint32_t MILLISECOND;
-extern const uint32_t SECOND;
+#define MILLISECOND  1
+#define SECOND 1000*MILLISECOND;
 
 // state description
 
@@ -66,7 +66,7 @@ _Bool get_current_button_state(){};
 void check_current_mode(state *s, duration_params *dp);
 
 
-void check_button();
+void check_button(state* s, duration_params *dp);
 
 
 #endif //ITMO_DCS_TRAFFIC_LIGHT_H
