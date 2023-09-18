@@ -32,15 +32,15 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-const mode* cm = &((mode) {0, 0, 0, 0})
-const duration_params* cdp = &((duration_params) {
-        .green_duration = 2 * SECOND;
-        .yellow_duration = 1 * SECOND;
-        .red_duration = 4 * green_duration;
-        .green_blinking_duration = 1500 * MILLISECOND;
+mode* cm = &((mode) {0, 0, 0, 0});
+duration_params* cdp = &((duration_params) {
+        .green_duration = 2 * SECOND,
+        .yellow_duration = 1 * SECOND,
+        .red_duration = 4 * 2 * SECOND,
+        .green_blinking_duration = 1500 * MILLISECOND,
 
-        .green_blinking_on_duration = 500 * MILLISECOND;
-        .green_blinking_off_duration = 250 * MILLISECOND;
+        .green_blinking_on_duration = 500 * MILLISECOND,
+        .green_blinking_off_duration = 250 * MILLISECOND,
 });
 /* USER CODE END PD */
 

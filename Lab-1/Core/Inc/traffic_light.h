@@ -10,7 +10,7 @@
 #include "stm32f4xx_hal.h"
 
 #define MILLISECOND  1
-#define SECOND 1000*MILLISECOND;
+#define SECOND 1000
 
 // state description
 
@@ -24,12 +24,7 @@ typedef struct {
     uint32_t green_blinking_off_duration;
 } duration_params;
 
-typedef struct {
-    mode current_mode;
-    uint32_t last_update_mode;
-    blinking_mode current_blinking_mode;
-    uint32_t last_update_blinking_mode;
-} state;
+
 typedef enum {
     OFF = 0,
     ON,
@@ -39,9 +34,15 @@ typedef enum {
     GREEN,
     GREEN_BLINKING,
     YELLOW,
-    Length
+    mode_length
 } mode;
 
+typedef struct {
+    mode current_mode;
+    uint32_t last_update_mode;
+    blinking_mode current_blinking_mode;
+    uint32_t last_update_blinking_mode;
+} state;
 //  gpio drivers
 
 void turn_red_light_on();
@@ -58,7 +59,7 @@ void turn_green_light_off();
 
 uint32_t get_passed_time(uint32_t);
 
-_Bool get_current_button_state(){};
+_Bool get_current_button_state();
 
 
 //high-level function
