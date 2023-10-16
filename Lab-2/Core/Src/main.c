@@ -92,8 +92,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  char s[] = "Hello world!\n";
   while (1)
   {
+    HAL_UART_Transmit( &huart6, (uint8_t *) s, sizeof( s ), 10 );
+    HAL_Delay( 1000 );
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
