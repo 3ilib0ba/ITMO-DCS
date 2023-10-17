@@ -26,18 +26,6 @@
 #include <string.h>
 #include <stdio.h>
 
-/*
-
-#include <stdbool.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <usart.h>
-#include <ctype.h>
-
-*/
-
 
 /* USER CODE END Includes */
 
@@ -58,19 +46,23 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint16_t GREEN = GPIO_PIN_13;
+uint16_t YELLOW = GPIO_PIN_14;
+uint16_t RED = GPIO_PIN_15;
+uint16_t BLINKING_GREEN = 0;
 uint8_t INT_ON = 1;
 uint8_t INT_OFF = 0;
 
 uint16_t current_light = 1;
 uint32_t start_time;
-uint32_t duration = 5000;
+uint32_t duration = 3000;
 uint32_t duration_for_red;
 uint32_t duration_for_yellow = 3000;
 uint32_t blink_duration = 500;
-uint32_t blink_count = 0;
+uint32_t blink_count = 6;
 uint8_t button_flag = 0;
 
-uint8_t interrupts_mode = 0;
+uint8_t interrupts_mode = 1;
 uint8_t is_writing_now = 0;
 char read_buffer[100];
 char write_buffer[100];
@@ -98,24 +90,24 @@ void wait(uint32_t duration) {
 }
 
 
-void turnAllOff() {
+void turn_all_off() {
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 }
 
-void turnSpecificLightOn(uint16_t light) {
-    turnAllOff();
+void turn_specific_light_on(uint16_t light) {
+    turn_all_off();
     HAL_GPIO_WritePin(GPIOD, light, GPIO_PIN_SET);
 }
 
-void blinkSpecificLight(uint32_t count, uint16_t light, uint32_t blinkDuration) {
+void blink_specific_light(uint32_t count, uint16_t light, uint32_t blinkDuration) {
     for (uint32_t i = 0; i < count; i++) {
 
-        turnAllOff();
+        turn_all_off();
         wait(blinkDuration);
 
-        turnSpecificLightOn(light);
+        turn_specific_light_on(light);
         wait(blinkDuration);
     }
 }
@@ -181,9 +173,11 @@ void write_about_info_command() {
     }
     uint8_t mode;
     char interrupts;
-    if (button_flag == 0 && current_light == RED) {
+    if (button_flag == 0) {
         mode = 1;
-    } else mode = 2;
+    } else {
+    	mode = 2;
+    }
     if (interrupts_mode == 1) {
         interrupts = 'I';
     } else {
@@ -220,12 +214,12 @@ void process_symbol() {
                 char *mode = strtok(NULL, " ");
                 if (strcmp(mode, "1") == 0) {
                     button_flag = 0;
-                    duration_for_red = duration * 4;
-                    write("Entered mode 1");
+//                    duration_for_red = duration * 4;
+                    write("Set mode 1. Not ignoring btn");
                 } else if (strcmp(mode, "2") == 0) {
                     button_flag = 1;
-                    duration_for_red = duration;
-                    write("Entered mode 2");
+                    duration_for_red = 4 * duration;
+                    write("Set mode 2. Ignored btn at all.");
                 } else {
                     write_command_not_found();
                 }
@@ -270,34 +264,34 @@ void process_symbol() {
     }
 }
 
-
-void turn_red_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-}
-
-void turn_yellow_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_red_and_yellow_lights_off() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-}
-
-void turn_green_light_on() {
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-}
-
+//
+//void turn_red_light_on() {
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+//}
+//
+//void turn_yellow_light_on() {
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+//}
+//
+//void turn_red_and_yellow_lights_off() {
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+//}
+//
+//void turn_green_light_on() {
+//    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+//}
+//
 void turn_green_light_off() {
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 }
-
-uint32_t get_passed_time(uint32_t startLoopTime) {
-    return HAL_GetTick() - startLoopTime;
-}
-
+//
+//uint32_t get_passed_time(uint32_t startLoopTime) {
+//    return HAL_GetTick() - startLoopTime;
+//}
+//
 uint8_t get_BTN() {
     return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15);
 }
@@ -335,6 +329,7 @@ int main(void) {
     /* USER CODE BEGIN 2 */
 
     duration_for_red = 4 * duration;
+    _Bool nBTN = 0;
     if (interrupts_mode == 1) {
         HAL_UART_Receive_IT(&huart6, (uint8_t *) cur_read_char, sizeof(char));
     }
@@ -371,19 +366,26 @@ int main(void) {
 
         switch (current_light) {
             case GPIO_PIN_15:
-                if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15) == 0 && button_flag == 0) {
-                    duration_for_red = duration;
-                    button_flag = 1;
-                }
+            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+            	    nBTN = 1;
+            	    duration_for_red = duration;
+            	}
                 if ((HAL_GetTick() - start_time) >= duration_for_red) {
                     current_light = GREEN;
                     duration_for_red = 4 * duration;
-                    button_flag = 0;
+                    nBTN = 0;
                     turn_specific_light_on(GREEN);
+//                    write("start to delay of 10 sec\n");
+//                    HAL_Delay(10000);
+//                    write("end of waiting HAL_Delay()\n");
                     start_time = HAL_GetTick();
                 }
                 break;
             case GPIO_PIN_14:
+            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+            	    nBTN = 1;
+            	    duration_for_red = duration;
+            	}
                 if ((HAL_GetTick() - start_time) >= duration_for_yellow) {
                     current_light = RED;
                     turn_specific_light_on(RED);
@@ -393,22 +395,34 @@ int main(void) {
             case GPIO_PIN_13:
                 if ((HAL_GetTick() - start_time) >= duration) {
                     current_light = BLINKING_GREEN;
+//                    blink_count = 3;
                     turn_all_off();
                     start_time = HAL_GetTick();
                 }
                 break;
             case 0:
-                if ((HAL_GetTick() - start_time) >= blink_duration) {
-                    blink_count++;
-                    if (blink_count < 6) {
-                        blink(GREEN);
-                    } else {
-                        blink_count = 0;
-                        current_light = YELLOW;
-                        turn_specific_light_on(YELLOW);
-                    }
-                    start_time = HAL_GetTick();
-                }
+            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+            	    nBTN = 1;
+            	    duration_for_red = duration;
+            	}
+            	if ((HAL_GetTick() - start_time) >= blink_duration) {
+            		if (blink_count > 0) {
+            			if (blink_count % 2 == 0) {
+            				turn_specific_light_on(GREEN);
+            			    blink_count--;
+            			    start_time = HAL_GetTick();
+            			} else {
+            				turn_green_light_off();
+            			    blink_count--;
+            			    start_time = HAL_GetTick();
+            			}
+            		} else {
+            			blink_count = 6;
+            	        current_light = YELLOW;
+            	        turn_specific_light_on(YELLOW);
+            	        start_time = HAL_GetTick();
+            		}
+            	}
                 break;
             default:
                 current_light = RED;
