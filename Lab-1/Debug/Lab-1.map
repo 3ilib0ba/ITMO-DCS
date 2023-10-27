@@ -420,7 +420,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x16 ./Core/Src/syscalls.o
  .debug_macro   0x0000000000000000       0xce ./Core/Src/syscalls.o
  .debug_line    0x0000000000000000      0x7ef ./Core/Src/syscalls.o
- .debug_str     0x0000000000000000     0x8a63 ./Core/Src/syscalls.o
+ .debug_str     0x0000000000000000     0x8a65 ./Core/Src/syscalls.o
  .comment       0x0000000000000000       0x51 ./Core/Src/syscalls.o
  .debug_frame   0x0000000000000000      0x2ac ./Core/Src/syscalls.o
  .ARM.attributes
@@ -482,7 +482,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x6a ./Core/Src/sysmem.o
  .debug_macro   0x0000000000000000      0x1df ./Core/Src/sysmem.o
  .debug_line    0x0000000000000000      0x4e5 ./Core/Src/sysmem.o
- .debug_str     0x0000000000000000     0x5d9f ./Core/Src/sysmem.o
+ .debug_str     0x0000000000000000     0x5da1 ./Core/Src/sysmem.o
  .comment       0x0000000000000000       0x51 ./Core/Src/sysmem.o
  .debug_frame   0x0000000000000000       0x34 ./Core/Src/sysmem.o
  .ARM.attributes
@@ -2807,18 +2807,19 @@ LOAD c:/st/stm32cubeide_1.9.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000004d57      0xcd0 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
 
 .debug_str      0x0000000000000000    0xc8a72
- .debug_str     0x0000000000000000    0xc71dd ./Core/Src/gpio.o
-                                      0xc7450 (size before relaxing)
- .debug_str     0x00000000000c71dd      0x2e8 ./Core/Src/main.o
-                                      0xc7703 (size before relaxing)
- .debug_str     0x00000000000c74c5       0x2c ./Core/Src/stm32f4xx_hal_msp.o
-                                      0xc7385 (size before relaxing)
- .debug_str     0x00000000000c74f1       0xc9 ./Core/Src/stm32f4xx_it.o
-                                      0xc72f8 (size before relaxing)
- .debug_str     0x00000000000c75ba       0xdb ./Core/Src/system_stm32f4xx.o
-                                      0xc7435 (size before relaxing)
- .debug_str     0x00000000000c7695       0x63 ./Core/Startup/startup_stm32f427vitx.o
- .debug_str     0x00000000000c76f8      0xb8d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
+ .debug_str     0x0000000000000000    0xc71df ./Core/Src/gpio.o
+                                      0xc7452 (size before relaxing)
+ .debug_str     0x00000000000c71df      0x2e8 ./Core/Src/main.o
+                                      0xc7705 (size before relaxing)
+ .debug_str     0x00000000000c74c7       0x2c ./Core/Src/stm32f4xx_hal_msp.o
+                                      0xc7387 (size before relaxing)
+ .debug_str     0x00000000000c74f3       0xc9 ./Core/Src/stm32f4xx_it.o
+                                      0xc72fa (size before relaxing)
+ .debug_str     0x00000000000c75bc       0xdb ./Core/Src/system_stm32f4xx.o
+                                      0xc7437 (size before relaxing)
+ .debug_str     0x00000000000c7697       0x36 ./Core/Startup/startup_stm32f427vitx.o
+                                         0x63 (size before relaxing)
+ .debug_str     0x00000000000c76cd      0xbb8 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
                                       0xc8041 (size before relaxing)
  .debug_str     0x00000000000c8285      0x365 ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o
                                       0xc7d26 (size before relaxing)
