@@ -176,7 +176,7 @@ void write_about_info_command() {
     if (button_flag == 0) {
         mode = 1;
     } else {
-    	mode = 2;
+        mode = 2;
     }
     if (interrupts_mode == 1) {
         interrupts = 'I';
@@ -287,6 +287,7 @@ void process_symbol() {
 void turn_green_light_off() {
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 }
+
 //
 //uint32_t get_passed_time(uint32_t startLoopTime) {
 //    return HAL_GetTick() - startLoopTime;
@@ -366,10 +367,10 @@ int main(void) {
 
         switch (current_light) {
             case GPIO_PIN_15:
-            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
-            	    nBTN = 1;
-            	    duration_for_red = duration;
-            	}
+                if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+                    nBTN = 1;
+                    duration_for_red = duration;
+                }
                 if ((HAL_GetTick() - start_time) >= duration_for_red) {
                     current_light = GREEN;
                     duration_for_red = 4 * duration;
@@ -382,10 +383,10 @@ int main(void) {
                 }
                 break;
             case GPIO_PIN_14:
-            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
-            	    nBTN = 1;
-            	    duration_for_red = duration;
-            	}
+                if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+                    nBTN = 1;
+                    duration_for_red = duration;
+                }
                 if ((HAL_GetTick() - start_time) >= duration_for_yellow) {
                     current_light = RED;
                     turn_specific_light_on(RED);
@@ -401,28 +402,28 @@ int main(void) {
                 }
                 break;
             case 0:
-            	if (!nBTN && get_BTN() == 0 && button_flag == 0) {
-            	    nBTN = 1;
-            	    duration_for_red = duration;
-            	}
-            	if ((HAL_GetTick() - start_time) >= blink_duration) {
-            		if (blink_count > 0) {
-            			if (blink_count % 2 == 0) {
-            				turn_specific_light_on(GREEN);
-            			    blink_count--;
-            			    start_time = HAL_GetTick();
-            			} else {
-            				turn_green_light_off();
-            			    blink_count--;
-            			    start_time = HAL_GetTick();
-            			}
-            		} else {
-            			blink_count = 6;
-            	        current_light = YELLOW;
-            	        turn_specific_light_on(YELLOW);
-            	        start_time = HAL_GetTick();
-            		}
-            	}
+                if (!nBTN && get_BTN() == 0 && button_flag == 0) {
+                    nBTN = 1;
+                    duration_for_red = duration;
+                }
+                if ((HAL_GetTick() - start_time) >= blink_duration) {
+                    if (blink_count > 0) {
+                        if (blink_count % 2 == 0) {
+                            turn_specific_light_on(GREEN);
+                            blink_count--;
+                            start_time = HAL_GetTick();
+                        } else {
+                            turn_green_light_off();
+                            blink_count--;
+                            start_time = HAL_GetTick();
+                        }
+                    } else {
+                        blink_count = 6;
+                        current_light = YELLOW;
+                        turn_specific_light_on(YELLOW);
+                        start_time = HAL_GetTick();
+                    }
+                }
                 break;
             default:
                 current_light = RED;
