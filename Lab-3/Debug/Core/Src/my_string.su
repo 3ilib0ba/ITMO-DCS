@@ -1,0 +1,2 @@
+../Core/Src/my_string.c:13:7:concat	32	static
+../Core/Src/my_string.c:21:5:parse_number	24	static

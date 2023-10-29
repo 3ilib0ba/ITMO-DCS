@@ -141,7 +141,7 @@ void write_char_to_buff(char c) {
     next(&write_to_pointer, write_buffer);
 }
 
-void write(char *str) {
+void append_to_sending_buffer_by_uart(char *str) {
     char *str_with_newlines = concat("\r\n", str);
     str_with_newlines = concat(str_with_newlines, "\r\n");
     int size = sizeof(char) * strlen(str_with_newlines);
@@ -185,22 +185,22 @@ void write_about_info_command() {
     }
 
     sprintf(answer, "Light: %s, Mode: %d, Timeout: %d, Interrupts: %c", light, mode, duration * 4, interrupts);
-    write(answer);
+    append_to_sending_buffer_by_uart(answer);
 }
 
 void write_command_not_found() {
     char *str = "Invalid command. You can use: '?', set mode 1/2, set timeout X, set interrupts on/off";
-    write(str);
+    append_to_sending_buffer_by_uart(str);
 }
 
-int is_number(char *str) {
+int parse_number(char *str) {
     for (size_t i = 0; str[i] != '\0'; i++) {
         if (!isdigit(str[i])) return 0;
     }
     return 1;
 }
 
-void process_symbol() {
+void parse_symbol_if_available() {
     if (*cur_process_char == '\r') {
         *cur_process_char = '\0';
 
@@ -215,24 +215,24 @@ void process_symbol() {
                 if (strcmp(mode, "1") == 0) {
                     button_flag = 0;
 //                    duration_for_red = duration * 4;
-                    write("Set mode 1. Not ignoring btn");
+                    append_to_sending_buffer_by_uart("Set mode 1. Not ignoring btn");
                 } else if (strcmp(mode, "2") == 0) {
                     button_flag = 1;
                     duration_for_red = 4 * duration;
-                    write("Set mode 2. Ignored btn at all.");
+                    append_to_sending_buffer_by_uart("Set mode 2. Ignored btn at all.");
                 } else {
                     write_command_not_found();
                 }
             } else if (strcmp(first_arg, "timeout") == 0) {
                 char *timeout = strtok(NULL, " ");
-                if (is_number(timeout)) {
+                if (parse_number(timeout)) {
                     int new_dur = atoi(timeout) * 1000;
                     if (duration_for_red == duration) {
                         duration_for_red = new_dur / 4;
                     } else {
                         duration_for_red = new_dur;
                     }
-                    write(concat("New duration is ", timeout));
+                    append_to_sending_buffer_by_uart(concat("New duration is ", timeout));
                     duration = new_dur / 4;
                 } else {
                     write_command_not_found();
@@ -243,12 +243,12 @@ void process_symbol() {
                     interrupts_mode = 1;
                     transmit_from_pointer = write_to_pointer;
                     cur_read_char = read_buffer;
-                    write("Interrupt mode on");
+                    append_to_sending_buffer_by_uart("Interrupt mode on");
                     HAL_UART_Receive_IT(&huart6, (uint8_t *) cur_read_char, sizeof(char));
                 } else if (strcmp(interrupts, "off") == 0) {
                     interrupts_mode = 0;
                     HAL_UART_Abort_IT(&huart6);
-                    write("Interrupt mode off");
+                    append_to_sending_buffer_by_uart("Interrupt mode off");
                 } else {
                     write_command_not_found();
                 }
@@ -347,7 +347,7 @@ int main(void) {
         switch (interrupts_mode) {
             case 1:
                 if (cur_process_char != cur_read_char) {
-                    process_symbol();
+                    parse_symbol_if_available();
                 }
                 if (is_writing_now == 0) {
                     if (transmit_from_pointer != write_to_pointer) {
@@ -360,7 +360,7 @@ int main(void) {
                 status = HAL_UART_Receive(&huart6, (uint8_t *) cur_process_char, sizeof(char), 100);
                 if (status == HAL_OK) {
                     HAL_UART_Transmit(&huart6, (uint8_t *) cur_process_char, sizeof(char), 10);
-                    process_symbol();
+                    parse_symbol_if_available();
                 }
                 break;
         }

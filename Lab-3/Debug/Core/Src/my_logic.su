@@ -1,0 +1,2 @@
+../Core/Src/my_logic.c:16:6:parse_symbol_if_available	16	static
+../Core/Src/my_logic.c:24:6:parse_symbol	128	static
