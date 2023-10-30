@@ -10,17 +10,13 @@
 #include "my_sound.h"
 
 const uint32_t OCTAVE_SIZE = 7;
-uint32_t freqs[] = {
-        0, 0, 20610, 21820, 24500, 27500, 30870,
-        32700, 36950, 41210, 43650, 49000, 55000, 61740,
-        65410, 73910, 82410, 87310, 98000, 110000, 123480,
-        130820, 147830, 164810, 174620, 196000, 220000, 110000,
-        261630, 293670, 329630, 349230, 392000, 440000, 493880,
-        523260, 587340, 659260, 698460, 784000, 880000, 987760,
-        1046520, 1174680, 1318500, 1396900, 1568000, 1720000, 1975500,
-        2093000, 2349200, 2637000, 2739800, 3136000, 3440000, 3951000,
-        4186000, 4698400, 5274000, 0, 0, 0, 0
-};
+uint32_t freqs[] = { 0, 0, 20610, 21820, 24500, 27500, 30870, 32700, 36950,
+		41210, 43650, 49000, 55000, 61740, 65410, 73910, 82410, 87310, 98000,
+		110000, 123480, 130820, 147830, 164810, 174620, 196000, 220000, 110000,
+		261630, 293670, 329630, 349230, 392000, 440000, 493880, 523260, 587340,
+		659260, 698460, 784000, 880000, 987760, 1046520, 1174680, 1318500,
+		1396900, 1568000, 1720000, 1975500, 2093000, 2349200, 2637000, 2739800,
+		3136000, 3440000, 3951000, 4186000, 4698400, 5274000, 0, 0, 0, 0 };
 uint32_t note_index = 0;
 uint32_t octave_index = 4;
 uint32_t duration = 1000;
@@ -40,21 +36,19 @@ void unmute() {
 }
 
 void set_frequency(uint32_t freq_millis) {
-	TIM1->PSC = ((2 * HAL_RCC_GetPCLK2Freq())
-			/ (2 * (TIM1->ARR) * (freq_millis / 1000))) - 1;
+	TIM1->PSC = 62500 / (freq_millis / 1000);
 }
 
 uint32_t get_frequency_by_index(uint32_t index) {
 	return freqs[index + (octave_index * OCTAVE_SIZE)];
 }
 
-
 //public functions start
 
 void set_default_value_for_sound() {
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	HAL_TIM_Base_Start_IT(&htim6);
-	TIM6->ARR = duration * 10;
+	TIM6->ARR = duration;
 }
 
 uint32_t get_current_octave_number() {
@@ -109,16 +103,23 @@ void octave_increase_if_available() {
 void duration_decrease_if_available() {
 	if (duration > 100) {
 		duration -= 100;
-		TIM6->ARR = duration * 10;
-		restart_timer(); //точно ли здесь оно надо?
+		TIM6->ARR = duration;
+		restart_timer();
 	}
 }
 
 void duration_increase_if_available() {
 	if (duration < 5000) {
 		duration += 100;
-		TIM6->ARR = duration * 10;
-		restart_timer(); //точно ли здесь оно надо?
+		TIM6->ARR = duration;
+		restart_timer();
 	}
 }
 //public functions start
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM6) {
+		mute();
+	}
+}
+
