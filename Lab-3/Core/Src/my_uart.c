@@ -18,7 +18,7 @@ char *write_to_pointer = write_buffer;
 
 //public functions start
 char* read_char_by_uart() {
-	char ans = NULL;
+	char* ans = NULL;
 	if (cur_process_char != cur_read_char) {
 		ans = cur_process_char;
 		next(&cur_process_char, read_buffer);

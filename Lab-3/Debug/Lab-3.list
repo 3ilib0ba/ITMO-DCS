@@ -1376,9 +1376,9 @@ char* read_char_by_uart() {
  8000b90:	b580      	push	{r7, lr}
  8000b92:	b082      	sub	sp, #8
  8000b94:	af00      	add	r7, sp, #0
-	char ans = NULL;
+	char* ans = NULL;
  8000b96:	2300      	movs	r3, #0
- 8000b98:	71fb      	strb	r3, [r7, #7]
+ 8000b98:	607b      	str	r3, [r7, #4]
 	if (cur_process_char != cur_read_char) {
  8000b9a:	4b09      	ldr	r3, [pc, #36]	; (8000bc0 <read_char_by_uart+0x30>)
  8000b9c:	681a      	ldr	r2, [r3, #0]
@@ -1389,14 +1389,14 @@ char* read_char_by_uart() {
 		ans = cur_process_char;
  8000ba6:	4b06      	ldr	r3, [pc, #24]	; (8000bc0 <read_char_by_uart+0x30>)
  8000ba8:	681b      	ldr	r3, [r3, #0]
- 8000baa:	71fb      	strb	r3, [r7, #7]
+ 8000baa:	607b      	str	r3, [r7, #4]
 		next(&cur_process_char, read_buffer);
  8000bac:	4906      	ldr	r1, [pc, #24]	; (8000bc8 <read_char_by_uart+0x38>)
  8000bae:	4804      	ldr	r0, [pc, #16]	; (8000bc0 <read_char_by_uart+0x30>)
  8000bb0:	f000 f8be 	bl	8000d30 <next>
 	}
 	return ans;
- 8000bb4:	79fb      	ldrb	r3, [r7, #7]
+ 8000bb4:	687b      	ldr	r3, [r7, #4]
 }
  8000bb6:	4618      	mov	r0, r3
  8000bb8:	3708      	adds	r7, #8
