@@ -67,6 +67,10 @@ void play(uint32_t note_index) {
 		set_frequency(freq);
 		restart_timer();
 		unmute();
+		char answer[100];
+		sprintf(answer, "Note: %s, octave: %d", get_note_name(note_index),
+				get_current_octave_number());
+		append_to_sending_buffer_by_uart(answer);
 	} else {
 		if (is_all_playing) {
 			mute();
@@ -120,6 +124,13 @@ void duration_increase_if_available() {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Instance == TIM6) {
 		mute();
+		if (is_all_playing){
+			note_index++;
+			if (note_index < OCTAVE_SIZE)
+				play(note_index);
+			else
+				is_all_playing = 0;
+		}
 	}
 }
 

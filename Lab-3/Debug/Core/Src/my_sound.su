@@ -7,10 +7,10 @@
 ../Core/Src/my_sound.c:54:10:get_current_octave_number	4	static
 ../Core/Src/my_sound.c:57:10:get_current_duration	4	static
 ../Core/Src/my_sound.c:60:7:get_note_name	16	static
-../Core/Src/my_sound.c:64:6:play	120	static
-../Core/Src/my_sound.c:84:6:start_all_playing	8	static
-../Core/Src/my_sound.c:93:6:octave_decrease_if_available	4	static
-../Core/Src/my_sound.c:98:6:octave_increase_if_available	4	static
-../Core/Src/my_sound.c:103:6:duration_decrease_if_available	8	static
-../Core/Src/my_sound.c:111:6:duration_increase_if_available	8	static
-../Core/Src/my_sound.c:120:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/my_sound.c:64:6:play	128	static
+../Core/Src/my_sound.c:88:6:start_all_playing	8	static
+../Core/Src/my_sound.c:97:6:octave_decrease_if_available	4	static
+../Core/Src/my_sound.c:102:6:octave_increase_if_available	4	static
+../Core/Src/my_sound.c:107:6:duration_decrease_if_available	8	static
+../Core/Src/my_sound.c:115:6:duration_increase_if_available	8	static
+../Core/Src/my_sound.c:124:6:HAL_TIM_PeriodElapsedCallback	16	static

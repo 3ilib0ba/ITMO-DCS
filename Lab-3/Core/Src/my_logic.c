@@ -25,9 +25,6 @@ void parse_symbol(char symbol){
 	char answer[100];
 	if (symbol >= '1' && symbol <= '7') {
 		uint32_t note_index = symbol - '1';
-		sprintf(answer, "Note: %s, octave: %d", get_note_name(note_index),
-				get_current_octave_number());
-		append_to_sending_buffer_by_uart(answer);
 		play(note_index);
 	} else {
 		switch (symbol) {
