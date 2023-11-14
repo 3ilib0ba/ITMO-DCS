@@ -25,7 +25,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "my_logic.h"
-#include "my_string.h"
 #include "my_sound.h"
 #include "my_uart.h"
 /* USER CODE END Includes */

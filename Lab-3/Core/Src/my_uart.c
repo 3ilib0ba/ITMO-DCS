@@ -3,8 +3,7 @@
 
 #include "usart.h"
 #include "my_uart.h"
-
-//#include "uart_our_driver.h"
+#include "my_string.h"
 
 bool is_writing_now = false;
 

@@ -1,8 +1,8 @@
-../Core/Src/my_uart.c:20:7:read_char_by_uart	16	static
-../Core/Src/my_uart.c:29:6:send_message_by_uart_if_available	8	static
-../Core/Src/my_uart.c:39:6:set_default_value_for_uart	8	static
-../Core/Src/my_uart.c:43:6:append_to_sending_buffer_by_uart	32	static
-../Core/Src/my_uart.c:54:6:HAL_UART_RxCpltCallback	16	static
-../Core/Src/my_uart.c:61:6:HAL_UART_TxCpltCallback	16	static
-../Core/Src/my_uart.c:69:6:write_char_to_buff	16	static
-../Core/Src/my_uart.c:74:6:next	16	static
+../Core/Src/my_uart.c:19:7:read_char_by_uart	16	static
+../Core/Src/my_uart.c:28:6:send_message_by_uart_if_available	8	static
+../Core/Src/my_uart.c:38:6:set_default_value_for_uart	8	static
+../Core/Src/my_uart.c:42:6:append_to_sending_buffer_by_uart	32	static
+../Core/Src/my_uart.c:53:6:HAL_UART_RxCpltCallback	16	static
+../Core/Src/my_uart.c:60:6:HAL_UART_TxCpltCallback	16	static
+../Core/Src/my_uart.c:68:6:write_char_to_buff	16	static
+../Core/Src/my_uart.c:73:6:next	16	static
