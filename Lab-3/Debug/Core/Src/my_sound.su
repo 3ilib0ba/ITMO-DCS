@@ -1,0 +1,16 @@
+../Core/Src/my_sound.c:26:6:restart_timer	4	static
+../Core/Src/my_sound.c:30:6:mute	4	static
+../Core/Src/my_sound.c:34:6:unmute	4	static
+../Core/Src/my_sound.c:38:6:set_frequency	16	static
+../Core/Src/my_sound.c:42:10:get_frequency_by_index	16	static
+../Core/Src/my_sound.c:48:6:set_default_value_for_sound	8	static
+../Core/Src/my_sound.c:54:10:get_current_octave_number	4	static
+../Core/Src/my_sound.c:57:10:get_current_duration	4	static
+../Core/Src/my_sound.c:60:7:get_note_name	16	static
+../Core/Src/my_sound.c:64:6:play	128	static
+../Core/Src/my_sound.c:88:6:start_all_playing	8	static
+../Core/Src/my_sound.c:97:6:octave_decrease_if_available	4	static
+../Core/Src/my_sound.c:102:6:octave_increase_if_available	4	static
+../Core/Src/my_sound.c:107:6:duration_decrease_if_available	8	static
+../Core/Src/my_sound.c:115:6:duration_increase_if_available	8	static
+../Core/Src/my_sound.c:124:6:HAL_TIM_PeriodElapsedCallback	16	static
