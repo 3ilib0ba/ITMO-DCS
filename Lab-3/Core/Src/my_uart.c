@@ -61,6 +61,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart->Instance == huart6.Instance) {
 		is_writing_now = false;
 		next(&transmit_from_pointer, write_buffer);
+		send_message_by_uart_if_available();
 	}
 }
 //public functions end

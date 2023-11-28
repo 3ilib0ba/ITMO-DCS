@@ -1,0 +1,92 @@
+14:33:23 **** Incremental Build of configuration Debug for project Lab-3 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/my_logic.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F427xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/my_logic.d" -MT"Core/Src/my_logic.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/my_logic.o"
+../Core/Src/my_logic.c: In function 'parse_mode':
+../Core/Src/my_logic.c:30:2: warning: implicit declaration of function 'check_mode_status' [-Wimplicit-function-declaration]
+   30 |  check_mode_status();
+      |  ^~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:32:3: warning: implicit declaration of function 'parse_symbol_if_available' [-Wimplicit-function-declaration]
+   32 |   parse_symbol_if_available();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:34:3: warning: implicit declaration of function 'parse_symbol_as_test' [-Wimplicit-function-declaration]
+   34 |   parse_symbol_as_test();
+      |   ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c: At top level:
+../Core/Src/my_logic.c:39:6: warning: conflicting types for 'parse_symbol_if_available'
+   39 | void parse_symbol_if_available() {
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:32:3: note: previous implicit declaration of 'parse_symbol_if_available' was here
+   32 |   parse_symbol_if_available();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c: In function 'parse_symbol_if_available':
+../Core/Src/my_logic.c:43:4: warning: implicit declaration of function 'parse_symbol'; did you mean 'parse_number'? [-Wimplicit-function-declaration]
+   43 |    parse_symbol(key + '0');
+      |    ^~~~~~~~~~~~
+      |    parse_number
+../Core/Src/my_logic.c: At top level:
+../Core/Src/my_logic.c:59:6: warning: conflicting types for 'parse_symbol_as_test'
+   59 | void parse_symbol_as_test() {
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:34:3: note: previous implicit declaration of 'parse_symbol_as_test' was here
+   34 |   parse_symbol_as_test();
+      |   ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:73:6: warning: conflicting types for 'parse_symbol'
+   73 | void parse_symbol(char symbol) {
+      |      ^~~~~~~~~~~~
+../Core/Src/my_logic.c:43:4: note: previous implicit declaration of 'parse_symbol' was here
+   43 |    parse_symbol(key + '0');
+      |    ^~~~~~~~~~~~
+../Core/Src/my_logic.c: In function 'parse_symbol':
+../Core/Src/my_logic.c:82:43: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+   82 |    sprintf(answer, "New octave_index is: %d",
+      |                                          ~^
+      |                                           |
+      |                                           int
+      |                                          %ld
+   83 |      get_current_octave_number());
+      |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~           
+      |      |
+      |      uint32_t {aka long unsigned int}
+../Core/Src/my_logic.c:88:43: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+   88 |    sprintf(answer, "New octave_index is: %d",
+      |                                          ~^
+      |                                           |
+      |                                           int
+      |                                          %ld
+   89 |      get_current_octave_number());
+      |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~           
+      |      |
+      |      uint32_t {aka long unsigned int}
+../Core/Src/my_logic.c:94:39: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+   94 |    sprintf(answer, "New duration is: %d ms", get_current_duration());
+      |                                      ~^      ~~~~~~~~~~~~~~~~~~~~~~
+      |                                       |      |
+      |                                       int    uint32_t {aka long unsigned int}
+      |                                      %ld
+../Core/Src/my_logic.c:99:39: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+   99 |    sprintf(answer, "New duration is: %d ms", get_current_duration());
+      |                                      ~^      ~~~~~~~~~~~~~~~~~~~~~~
+      |                                       |      |
+      |                                       int    uint32_t {aka long unsigned int}
+      |                                      %ld
+../Core/Src/my_logic.c: At top level:
+../Core/Src/my_logic.c:116:6: warning: conflicting types for 'check_mode_status'
+  116 | void check_mode_status() {
+      |      ^~~~~~~~~~~~~~~~~
+../Core/Src/my_logic.c:30:2: note: previous implicit declaration of 'check_mode_status' was here
+   30 |  check_mode_status();
+      |  ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Lab-3.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kastr\gitTrash\ITMO-DCS\Lab-3\STM32F427VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab-3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lab-3.elf
+ 
+arm-none-eabi-size   Lab-3.elf 
+arm-none-eabi-objdump -h -S  Lab-3.elf  > "Lab-3.list"
+   text	   data	    bss	    dec	    hex	filename
+  24908	    428	   2100	  27436	   6b2c	Lab-3.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lab-3.list
+ 
+
+14:33:24 Build Finished. 0 errors, 12 warnings. (took 859ms)
+

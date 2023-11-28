@@ -6,11 +6,14 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/gpio.c \
+../Core/Src/i2c.c \
+../Core/Src/kb.c \
 ../Core/Src/main.c \
 ../Core/Src/my_logic.c \
 ../Core/Src/my_sound.c \
 ../Core/Src/my_string.c \
 ../Core/Src/my_uart.c \
+../Core/Src/pca9538.c \
 ../Core/Src/stm32f4xx_hal_msp.c \
 ../Core/Src/stm32f4xx_it.c \
 ../Core/Src/syscalls.c \
@@ -21,11 +24,14 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/gpio.o \
+./Core/Src/i2c.o \
+./Core/Src/kb.o \
 ./Core/Src/main.o \
 ./Core/Src/my_logic.o \
 ./Core/Src/my_sound.o \
 ./Core/Src/my_string.o \
 ./Core/Src/my_uart.o \
+./Core/Src/pca9538.o \
 ./Core/Src/stm32f4xx_hal_msp.o \
 ./Core/Src/stm32f4xx_it.o \
 ./Core/Src/syscalls.o \
@@ -36,11 +42,14 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/gpio.d \
+./Core/Src/i2c.d \
+./Core/Src/kb.d \
 ./Core/Src/main.d \
 ./Core/Src/my_logic.d \
 ./Core/Src/my_sound.d \
 ./Core/Src/my_string.d \
 ./Core/Src/my_uart.d \
+./Core/Src/pca9538.d \
 ./Core/Src/stm32f4xx_hal_msp.d \
 ./Core/Src/stm32f4xx_it.d \
 ./Core/Src/syscalls.d \
@@ -57,7 +66,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/my_logic.d ./Core/Src/my_logic.o ./Core/Src/my_logic.su ./Core/Src/my_sound.d ./Core/Src/my_sound.o ./Core/Src/my_sound.su ./Core/Src/my_string.d ./Core/Src/my_string.o ./Core/Src/my_string.su ./Core/Src/my_uart.d ./Core/Src/my_uart.o ./Core/Src/my_uart.su ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/tim.d ./Core/Src/tim.o ./Core/Src/tim.su ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su
+	-$(RM) ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/kb.d ./Core/Src/kb.o ./Core/Src/kb.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/my_logic.d ./Core/Src/my_logic.o ./Core/Src/my_logic.su ./Core/Src/my_sound.d ./Core/Src/my_sound.o ./Core/Src/my_sound.su ./Core/Src/my_string.d ./Core/Src/my_string.o ./Core/Src/my_string.su ./Core/Src/my_uart.d ./Core/Src/my_uart.o ./Core/Src/my_uart.su ./Core/Src/pca9538.d ./Core/Src/pca9538.o ./Core/Src/pca9538.su ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/tim.d ./Core/Src/tim.o ./Core/Src/tim.su ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su
 
 .PHONY: clean-Core-2f-Src
 

@@ -4,5 +4,5 @@
 ../Core/Src/my_uart.c:42:6:append_to_sending_buffer_by_uart	32	static
 ../Core/Src/my_uart.c:53:6:HAL_UART_RxCpltCallback	16	static
 ../Core/Src/my_uart.c:60:6:HAL_UART_TxCpltCallback	16	static
-../Core/Src/my_uart.c:68:6:write_char_to_buff	16	static
-../Core/Src/my_uart.c:73:6:next	16	static
+../Core/Src/my_uart.c:69:6:write_char_to_buff	16	static
+../Core/Src/my_uart.c:74:6:next	16	static

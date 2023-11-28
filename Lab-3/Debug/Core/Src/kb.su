@@ -1,0 +1,2 @@
+../Core/Src/kb.c:9:19:Set_Keyboard	16	static
+../Core/Src/kb.c:109:9:Get_Key	24	static

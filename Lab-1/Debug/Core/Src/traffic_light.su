@@ -1,0 +1,12 @@
+../Core/Src/traffic_light.c:18:6:turn_red_light_on	8	static
+../Core/Src/traffic_light.c:23:6:turn_yellow_light_on	8	static
+../Core/Src/traffic_light.c:28:6:turn_red_and_yellow_lights_off	8	static
+../Core/Src/traffic_light.c:33:6:turn_green_light_on	8	static
+../Core/Src/traffic_light.c:37:6:turn_green_light_off	8	static
+../Core/Src/traffic_light.c:41:10:get_passed_time	16	static
+../Core/Src/traffic_light.c:45:7:get_current_button_state	8	static
+../Core/Src/traffic_light.c:52:13:set_next_mode	16	static
+../Core/Src/traffic_light.c:57:13:set_next_blinking_mode	16	static
+../Core/Src/traffic_light.c:62:13:set_current_mode	16	static
+../Core/Src/traffic_light.c:98:6:check_current_mode	16	static
+../Core/Src/traffic_light.c:140:6:check_button	16	static

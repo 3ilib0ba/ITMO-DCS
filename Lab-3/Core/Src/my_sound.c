@@ -36,7 +36,7 @@ void unmute() {
 }
 
 void set_frequency(uint32_t freq_millis) {
-	TIM1->PSC = (125000) / ((freq_millis / 1000) * (TIM1->ARR + 1)) -1;
+	TIM1->PSC = (1125000) / ((freq_millis / 1000) * (TIM1->ARR + 1)) -1;
 }
 
 uint32_t get_frequency_by_index(uint32_t index) {

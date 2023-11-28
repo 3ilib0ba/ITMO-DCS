@@ -1,2 +1,7 @@
-../Core/Src/my_logic.c:16:6:parse_symbol_if_available	16	static
-../Core/Src/my_logic.c:24:6:parse_symbol	120	static
+../Core/Src/my_logic.c:19:9:readKB	16	static
+../Core/Src/my_logic.c:29:6:parse_mode	8	static
+../Core/Src/my_logic.c:39:6:parse_symbol_if_available	8	static
+../Core/Src/my_logic.c:59:6:parse_symbol_as_test	112	static
+../Core/Src/my_logic.c:73:6:parse_symbol	120	static
+../Core/Src/my_logic.c:112:9:get_BTN	8	static
+../Core/Src/my_logic.c:116:6:check_mode_status	112	static
